@@ -10,7 +10,7 @@ public class ThreadingAssistant {
     private final ExecutorService searchThread = Executors.newSingleThreadExecutor();
     private Future searchTask;
 
-    public void submitSearchtoThread(NiblSearch search){
+    public void submitSearchtoThread(Runnable search){
         searchTask = searchThread.submit(search);
     }
 

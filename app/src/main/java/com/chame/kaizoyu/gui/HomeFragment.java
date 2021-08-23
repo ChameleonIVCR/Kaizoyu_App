@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.chame.kaizoyu.MainActivity;
 import com.chame.kaizoyu.R;
+import com.chame.kaizoyu.search.SearchResultsPager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,13 +18,11 @@ import com.chame.kaizoyu.R;
 public class HomeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SearchResultsPager pager;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,10 +40,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -55,9 +50,11 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        MainActivity.getInstance().getScrappersAssistant().searchNibl(
+        pager = new SearchResultsPager(
+                null,
                 getActivity(),
                 (LinearLayout) getView().findViewById(R.id.items_layout)
         );
+        pager.initialize();
     }
 }

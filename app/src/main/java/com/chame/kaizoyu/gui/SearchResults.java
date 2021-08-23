@@ -1,5 +1,6 @@
 package com.chame.kaizoyu.gui;
 
+import android.widget.LinearLayout;
 import com.chame.kaizoyu.MainActivity;
 import com.chame.kaizoyu.R;
 
@@ -9,8 +10,10 @@ import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+import com.chame.kaizoyu.search.SearchResultsPager;
 
 public class SearchResults extends AppCompatActivity {
+    private SearchResultsPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +44,15 @@ public class SearchResults extends AppCompatActivity {
             }
         });
 
-        MainActivity.getInstance().getScrappersAssistant().searchNibl(
+        LinearLayout itemsList = findViewById(R.id.search_items_layout);
+
+        pager = new SearchResultsPager(
                 searchTerm,
                 getBaseContext(),
-                findViewById(R.id.search_items_layout)
+                itemsList
         );
+
+        pager.initialize();
 
     }
 }

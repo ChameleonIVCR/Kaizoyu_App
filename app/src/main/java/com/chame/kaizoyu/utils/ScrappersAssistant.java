@@ -15,22 +15,6 @@ public class ScrappersAssistant {
         this.thAssistant = thAssistant;
     }
 
-    public void searchNibl(String searchTerm, Context context, LinearLayout layout){
-        if (thAssistant.isSearchThreadRunning()){
-            thAssistant.cancelSearchThread();
-        }
-        NiblSearch search = new NiblSearch(searchTerm, nibl, context, layout);
-        thAssistant.submitSearchtoThread(search);
-    }
-
-    public void searchNibl(Context context, LinearLayout layout){
-        if (thAssistant.isSearchThreadRunning()){
-            thAssistant.cancelSearchThread();
-        }
-        NiblSearch search = new NiblSearch(nibl, context, layout);
-        thAssistant.submitSearchtoThread(search);
-    }
-
     public Nibl getNibl(){
         return nibl;
     }

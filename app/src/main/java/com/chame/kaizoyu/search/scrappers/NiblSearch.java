@@ -7,11 +7,10 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.chame.kaizolib.common.model.Result;
 import com.chame.kaizolib.nibl.Nibl;
-import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.search.SearchItem;
+import com.chame.kaizoyu.search.SearchItems;
+import com.chame.kaizoyu.search.SearchResultsPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +20,13 @@ public class NiblSearch implements Runnable {
     private final Context context;
     private final String search;
     private final LinearLayout layoutList;
+    private final SearchResultsPager pager;
 
-    public NiblSearch(String search, Nibl nibl, Context context, LinearLayout layoutList) {
+    public NiblSearch(String search, Nibl nibl, Context context, LinearLayout layoutList, SearchResultsPager pager) {
+        this.pager = pager;
         this.nibl = nibl;
         this.context = context;
         this.search = search;
-        this.layoutList = layoutList;
-    }
-
-    public NiblSearch(Nibl nibl, Context context, LinearLayout layoutList) {
-        this.nibl = nibl;
-        this.context = context;
-        this.search = null;
         this.layoutList = layoutList;
     }
 
@@ -45,27 +39,6 @@ public class NiblSearch implements Runnable {
             results = nibl.search(search);
         }
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        List<View> items = new ArrayList<>();
-
-        for (Result result : results){
-            if (Thread.currentThread().isInterrupted()) {
-                return;
-            }
-
-            items.add(SearchItem.inflateSearchItem(inflater, result));
-        }
-
-        if (Thread.currentThread().isInterrupted()) {
-            return;
-        }
-
-        Runnable task = () -> {
-            for (View item : items){
-                layoutList.addView(item);
-            }
-        };
-
-        new Handler(Looper.getMainLooper()).post(task);
+        this.pager.setResults(results);
     }
 }
