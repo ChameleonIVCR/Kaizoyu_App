@@ -16,10 +16,10 @@ import java.util.List;
 public class SearchItems implements Runnable{
     private final Context context;
     private final LinearLayout layoutList;
-    private final SearchResultsPager pager;
+    private final SearchRecyclerListener pager;
     private final List<Result> results;
 
-    public SearchItems(List<Result> results, Context context, LinearLayout layoutList, SearchResultsPager pager){
+    public SearchItems(List<Result> results, Context context, LinearLayout layoutList, SearchRecyclerListener pager){
         this.results = results;
         this.context = context;
         this.layoutList = layoutList;

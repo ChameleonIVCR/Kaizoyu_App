@@ -1,6 +1,10 @@
 package com.chame.kaizoyu.gui;
 
+import android.content.Intent;
 import android.widget.LinearLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.chame.kaizoyu.MainActivity;
 import com.chame.kaizoyu.R;
 
@@ -10,10 +14,12 @@ import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.chame.kaizoyu.search.SearchResultsPager;
+import com.chame.kaizoyu.gui.adapters.RecyclerAdapter;
+import com.chame.kaizoyu.search.SearchRecyclerListener;
 
 public class SearchResults extends AppCompatActivity {
-    private SearchResultsPager pager;
+    private SearchRecyclerListener pager;
+    private String lastSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,26 +39,40 @@ public class SearchResults extends AppCompatActivity {
             }
         });
 
-        String searchTerm = extras.getString("search");
+        lastSearch = extras.getString("search");
         SearchView searchView = findViewById(R.id.main_search_bar);
-        searchView.setQuery(searchTerm, false);
+        searchView.setQuery(lastSearch, false);
         searchView.setIconified(false);
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchView.setOnCloseListener(() -> true);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.search_items_layout);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerAdapter adapter = new RecyclerAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+        SearchRecyclerListener pager = new SearchRecyclerListener(lastSearch, adapter);
+        pager.initialize();
+        recyclerView.addOnScrollListener(pager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                ((LinearLayoutManager)recyclerView.getLayoutManager()).getOrientation());
+
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
-            public boolean onClose() {
+            public boolean onQueryTextSubmit(String search) {
+                if (lastSearch.equals(search)){
+                    return false;
+                }
+                pager.newSearch(search);
                 return true;
             }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
         });
-
-        LinearLayout itemsList = findViewById(R.id.search_items_layout);
-
-        pager = new SearchResultsPager(
-                searchTerm,
-                getBaseContext(),
-                itemsList
-        );
-
-        pager.initialize();
-
     }
 }

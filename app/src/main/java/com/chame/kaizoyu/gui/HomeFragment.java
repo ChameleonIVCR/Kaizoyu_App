@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.chame.kaizoyu.MainActivity;
 import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.search.SearchResultsPager;
+import com.chame.kaizoyu.search.SearchRecyclerListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +20,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private SearchResultsPager pager;
+    private SearchRecyclerListener pager;
 
 
     public HomeFragment() {
@@ -50,11 +49,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        pager = new SearchResultsPager(
-                null,
-                getActivity(),
-                (LinearLayout) getView().findViewById(R.id.items_layout)
-        );
-        pager.initialize();
+
     }
 }

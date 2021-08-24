@@ -1,9 +1,11 @@
-package com.chame.kaizoyu.gui;
+package com.chame.kaizoyu.gui.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import com.chame.kaizoyu.gui.HomeFragment;
+import com.chame.kaizoyu.gui.LoadingFragment;
 
 public class TabAdapter extends FragmentStateAdapter {
     public TabAdapter(AppCompatActivity activity) {
