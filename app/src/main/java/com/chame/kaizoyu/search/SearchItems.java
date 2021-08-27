@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.chame.kaizolib.common.model.Result;
 import com.chame.kaizoyu.R;
+import com.chame.kaizoyu.gui.adapters.SearchRecyclerListener;
 
 import java.util.ArrayList;
 import java.util.List;

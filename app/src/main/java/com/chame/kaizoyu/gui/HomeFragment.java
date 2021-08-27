@@ -1,13 +1,12 @@
 package com.chame.kaizoyu.gui;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.search.SearchRecyclerListener;
+import com.chame.kaizoyu.gui.adapters.SearchRecyclerListener;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,14 +1,10 @@
 package com.chame.kaizoyu.search.scrappers;
 
-import android.content.Context;
-
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
-import android.widget.LinearLayout;
 import com.chame.kaizolib.common.model.Result;
 import com.chame.kaizolib.nibl.Nibl;
-import com.chame.kaizoyu.search.SearchRecyclerListener;
+import com.chame.kaizoyu.gui.adapters.SearchRecyclerListener;
 
 import java.util.List;
 

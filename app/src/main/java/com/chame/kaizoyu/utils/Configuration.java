@@ -13,6 +13,7 @@ public class Configuration {
     public Configuration(Context context) {
         this.context = context;
         properties = load();
+        generateUsername();
     }
 
     // Returns the content of a Properties element. As the properties files is
@@ -21,14 +22,30 @@ public class Configuration {
     public String getProperty(String property) {
         return properties.getProperty(property);
     }
+
     public void setProperty(String property, String value) {
         properties.setProperty(property, value);
+    }
+
+    private void generateUsername(){
+        if (!getProperty("ircName").equals("null")){
+            return;
+        }
+        String randomChars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+        StringBuilder randomString = new StringBuilder();
+        Random random = new Random();
+        while (randomString.length() < 7) {
+            int index = (int) (random.nextFloat() * randomChars.length());
+            randomString.append(randomChars.charAt(index));
+        }
+        setProperty("ircName", "KaiZ" + randomString);
+        save();
     }
 
     public void save(){
         String filename = "Kaizoyu.properties";
         File propertiesFile = new File(context.getFilesDir(), "config/" + filename);
-        propertiesFile.mkdirs();
+        propertiesFile.getParentFile().mkdirs();
         try {
             FileOutputStream fileos = new FileOutputStream(propertiesFile);
             this.properties.store(fileos, filename);
@@ -45,7 +62,7 @@ public class Configuration {
         Properties defProperties = new Properties();
 
         try {
-            propertiesFile.mkdirs();
+            propertiesFile.getParentFile().mkdirs();
             defProperties.load(context.getAssets().open(filename));
 
             if (propertiesFile.exists()) {

@@ -8,9 +8,10 @@ import java.util.concurrent.Future;
 
 public class ThreadingAssistant {
     private final ExecutorService searchThread = Executors.newSingleThreadExecutor();
+    private final ExecutorService downloadThread = Executors.newCachedThreadPool();
     private Future searchTask;
 
-    public void submitSearchtoThread(Runnable search){
+    public void submitToSearchThread(Runnable search){
         searchTask = searchThread.submit(search);
     }
 
@@ -22,5 +23,9 @@ public class ThreadingAssistant {
         if (searchTask != null && !searchTask.isDone()){
             searchTask.cancel(true);
         }
+    }
+
+    public Future submitToDownloadThread(Runnable download){
+        return downloadThread.submit(download);
     }
 }

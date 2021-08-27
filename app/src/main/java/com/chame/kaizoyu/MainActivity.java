@@ -15,6 +15,7 @@ import com.chame.kaizoyu.utils.ThreadingAssistant;
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.ref.WeakReference;
+import java.util.logging.*;
 
 public class MainActivity extends AppCompatActivity {
     private final ThreadingAssistant thAssistant = new ThreadingAssistant();

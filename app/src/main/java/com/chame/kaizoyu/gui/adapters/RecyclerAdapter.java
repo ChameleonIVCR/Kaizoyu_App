@@ -46,7 +46,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         vHolder.textBot.setText(result.getBot());
         vHolder.textQuality.setText(result.getQuality());
         vHolder.textFormat.setText(result.getFormat());
-        vHolder.textFormat.setText(result.getSize());
+        vHolder.textSize.setText(result.getSize());
     }
 
     // total number of rows
@@ -77,7 +77,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener == null) return;
+            mClickListener.onItemClick(results.get(getAdapterPosition()));
         }
     }
 
@@ -105,6 +106,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(Result result);
     }
 }

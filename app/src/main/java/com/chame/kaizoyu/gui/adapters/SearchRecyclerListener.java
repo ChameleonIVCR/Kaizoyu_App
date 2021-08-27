@@ -1,15 +1,10 @@
-package com.chame.kaizoyu.search;
+package com.chame.kaizoyu.gui.adapters;
 
-import android.content.Context;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chame.kaizolib.common.model.Result;
-import com.chame.kaizolib.nibl.Nibl;
 import com.chame.kaizoyu.MainActivity;
-import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.gui.adapters.RecyclerAdapter;
 import com.chame.kaizoyu.search.scrappers.NiblSearch;
 import com.chame.kaizoyu.utils.ThreadingAssistant;
 
@@ -71,7 +66,7 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
             thAssistant.cancelSearchThread();
         }
 
-        thAssistant.submitSearchtoThread(niblSearch);
+        thAssistant.submitToSearchThread(niblSearch);
     }
 
     public void newSearch(String searchTerm){
@@ -82,7 +77,7 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
         adapter.clearData();
         adapter.getRecyclerView().post(adapter::notifyDataSetChanged);
 
-        thAssistant.submitSearchtoThread(new NiblSearch(
+        thAssistant.submitToSearchThread(new NiblSearch(
                 searchTerm,
                 MainActivity.getInstance().getScrappersAssistant().getNibl(),
                 this

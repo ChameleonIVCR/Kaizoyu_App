@@ -11,6 +11,13 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.Kaizoyu">
+        <activity
+                android:name=".gui.VideoPlayer"
+                android:screenOrientation="landscape"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_video_player"
+                android:theme="@style/Theme.Kaizoyu.Fullscreen">
+        </activity>
         <activity android:name=".gui.SearchResults">
         </activity>
         <activity android:name=".MainActivity">
