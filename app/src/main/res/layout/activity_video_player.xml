@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
              android:theme="@style/ThemeOverlay.Kaizoyu.FullscreenContainer"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="?attr/fullscreenBackgroundColor"
-             android:gravity="center"
-             tools:context=".gui.VideoPlayer">
+             tools:context=".gui.VideoPlayer"
+             android:id="@+id/video_background">
 
         <VideoView
                 android:fitsSystemWindows="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/video_frame"/>
+                android:id="@+id/video_frame"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+        <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="11"
+                android:secondaryProgress="11"
+                android:progress="0"
+                android:indeterminate="false"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/initial_download_progress"
+                android:progressDrawable="@drawable/progress_circle"
+                app:layout_constraintStart_toStartOf="@+id/video_frame"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/video_frame"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+                android:text="...Starting Download..."
+                android:textColor="@color/main_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/download_speed"
+                app:layout_constraintTop_toBottomOf="@+id/initial_download_progress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.100000024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="98dp"
+                android:layout_height="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp">
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
