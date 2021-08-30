@@ -32,9 +32,11 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy){
         super.onScrolled(recyclerView, dx, dy);
         LinearLayoutManager mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        if (mLayoutManager == null || recyclerView.getAdapter() == null) return;
+
         int totalItemCount = mLayoutManager.getItemCount();
         int lastVisible = mLayoutManager.findLastVisibleItemPosition();
-        if (recyclerView.getAdapter() == null) return;
 
         if (!isLoading() && hasResults() && lastVisible + 5 >= totalItemCount){
             loadMoreResults();
@@ -57,8 +59,11 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
     public void setResults(List<Result> results){
         this.results = results;
 
-        //For debugging purposes.
-        loadMoreResults();
+        if (results == null){
+
+        } else {
+            loadMoreResults();
+        }
     }
 
     public void initialize(){
@@ -94,5 +99,9 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
 
         adapter.replaceData(subResults);
         adapter.getRecyclerView().post(adapter::notifyDataSetChanged);
+    }
+
+    public interface SearchListener{
+        void onNoResults();
     }
 }

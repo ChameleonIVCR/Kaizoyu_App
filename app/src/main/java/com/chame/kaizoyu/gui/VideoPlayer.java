@@ -1,13 +1,13 @@
 package com.chame.kaizoyu.gui;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.*;
-import android.widget.MediaController;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,20 +17,30 @@ import com.chame.kaizolib.irc.IrcClient;
 import com.chame.kaizoyu.R;
 import com.chame.kaizoyu.gui.modelholder.VideoDownloadHolder;
 
+import com.google.android.material.snackbar.Snackbar;
 import io.github.tonnyl.spark.Spark;
 
 import java.io.File;
 
 public class VideoPlayer extends AppCompatActivity {
     private Spark spark;
+
+    //Main progress bars
     private ProgressBar initialProgressBar;
     private TextView downloadSpeed;
 
+    //Secondary progress indicators
+    private TextView secondaryProgress;
+    private TextView secondarySpeed;
+    private LinearLayout secondaryIndicatorContainer;
+
     private VideoDownloadHolder videoDataHolder;
+    private VideoView videoView;
+
+    private File downloadFile;
 
     private boolean isPlaying = false;
-    private VideoView videoView;
-    private File downloadFile;
+    private boolean hasFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +48,28 @@ public class VideoPlayer extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_video_player);
 
+        downloadFile = getCacheDir();
+        if (savedInstanceState != null){
+            downloadFile = new File(savedInstanceState.getString("file"));
+            isPlaying = savedInstanceState.getBoolean("isPlaying");
+            if (isPlaying) startPlayer();
+        }
+
+        //Main progress bars
         initialProgressBar = findViewById(R.id.initial_download_progress);
         initialProgressBar.setIndeterminate(false);
         initialProgressBar.setProgress(0);
         initialProgressBar.setMax(11);
         downloadSpeed = findViewById(R.id.download_speed);
 
-        //Temporary value
-        downloadFile = getCacheDir();
-        if (savedInstanceState != null){
-            downloadFile = new File(savedInstanceState.getString("file"));
-            isPlaying = savedInstanceState.getBoolean("isPlaying");
-            if (isPlaying) startPlayer();
+        //Secondary progress indicators
+        secondaryProgress = findViewById(R.id.small_progress);
+        secondarySpeed = findViewById(R.id.small_speed);
+        secondaryIndicatorContainer = findViewById(R.id.small_indicator_container);
+        if (isPlaying && !hasFinished) {
+            secondaryIndicatorContainer.setVisibility(View.VISIBLE);
+        } else {
+            secondaryIndicatorContainer.setVisibility(View.INVISIBLE);
         }
 
         videoDataHolder = new ViewModelProvider(this).get(VideoDownloadHolder.class);
@@ -61,6 +81,23 @@ public class VideoPlayer extends AppCompatActivity {
             @Override
             public void onFailure(IrcClient.FailureCode f) {
                 //TODO Error handling
+                String message;
+
+                if (f == IrcClient.FailureCode.NoQuickRetry){
+                    message = "This provider doesn't support quick retry, please try again later (150 seconds max).";
+                } else if (f == IrcClient.FailureCode.TimeOut){
+                    message = "Connection to IRC has timed out. Check your internet connection and retry later.";
+                } else if (f == IrcClient.FailureCode.UnknownHost){
+                    message = "The IRC handshake server couldn't be reached. Check your internet connection.";
+                } else {
+                    message = "There was a general I/O exception. Check your internet connection, and/or app permissions.";
+                }
+
+                Snackbar.make(findViewById(R.id.video_background),
+                        message,
+                        Snackbar.LENGTH_LONG).show();
+
+                delayedExit();
             }
         });
         videoDataHolder.setDccDownloadListener(new DCCDownloader.DCCDownloadListener() {
@@ -72,8 +109,9 @@ public class VideoPlayer extends AppCompatActivity {
 
             @Override
             public void onProgress(int progress, String speed) {
-                if (isPlaying){
-                    //TODO update the widget
+                if (isPlaying && !hasFinished){
+                    runOnUiThread(() -> secondaryProgress.setText(progress+"%"));
+                    runOnUiThread(() -> secondarySpeed.setText(speed));
                 } else {
                     runOnUiThread(() -> initialProgressBar.setProgress(progress));
                     runOnUiThread(() -> downloadSpeed.setText(speed));
@@ -84,7 +122,8 @@ public class VideoPlayer extends AppCompatActivity {
 
             @Override
             public void onFinished(File downloadFile) {
-
+                runOnUiThread(() -> secondaryIndicatorContainer.setVisibility(View.GONE));
+                hasFinished = true;
             }
 
             @Override
@@ -102,8 +141,34 @@ public class VideoPlayer extends AppCompatActivity {
                 .build();
 
         //Configure player
-        videoView = (VideoView) findViewById(R.id.video_frame);
-        MediaController ctlr = new MediaController(this);
+        videoView = findViewById(R.id.video_frame);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                MediaPlayer.TrackInfo[] a = mp.getTrackInfo();
+                for (MediaPlayer.TrackInfo i : a){
+                    System.out.println("Found Tracks:" + i.getTrackType());
+                }
+            }
+        });
+
+        MediaController ctlr = new MediaController(this){
+            @Override
+            public void hide() {
+                super.hide();
+            }
+
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent event) {
+                if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+                    super.hide();
+                    finish();
+                    return true;
+                }
+                return super.dispatchKeyEvent(event);
+            }
+        };
+
         ctlr.setMediaPlayer(videoView);
         videoView.setMediaController(ctlr);
         videoView.requestFocus();
@@ -117,6 +182,7 @@ public class VideoPlayer extends AppCompatActivity {
         );
 
         videoDataHolder.start();
+        drawOnCutOut();
     }
 
     @Override
@@ -152,6 +218,13 @@ public class VideoPlayer extends AppCompatActivity {
         }
     }
 
+    private void drawOnCutOut(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            final WindowManager.LayoutParams wManager = getWindow().getAttributes();
+            wManager.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
+    }
+
     private void hideSystemUI(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             final WindowInsetsController controller = getWindow().getInsetsController();
@@ -171,12 +244,18 @@ public class VideoPlayer extends AppCompatActivity {
         }
     }
 
+    private void delayedExit(){
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(this::finish, 5000);
+    }
+
     private void startPlayer(){
         spark.stopAnimation();
         ConstraintLayout background = findViewById(R.id.video_background);
         background.setBackgroundColor(Color.BLACK);
         initialProgressBar.setVisibility(View.GONE);
         downloadSpeed.setVisibility(View.GONE);
+        secondaryIndicatorContainer.setVisibility(View.VISIBLE);
 
         isPlaying = true;
         videoView.setVisibility(View.VISIBLE);

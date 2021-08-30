@@ -48,12 +48,32 @@
 
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="98dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#50999999"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp">
+                android:layout_marginEnd="5dp"
+                android:id="@+id/small_indicator_container">
+
+                <TextView
+                        android:text="100%"
+                        android:textColor="@color/main_text"
+                        android:textAlignment="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/small_progress"
+                        android:textSize="12sp"/>
+
+                <TextView
+                        android:text="6.50 Mbps"
+                        android:textColor="@color/main_text"
+                        android:textAlignment="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/small_speed"
+                        android:textSize="12sp"/>
         </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
