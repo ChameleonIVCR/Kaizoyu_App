@@ -7,36 +7,25 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.viewpager2.widget.ViewPager2;
-import com.chame.kaizoyu.gui.SearchResults;
+import com.chame.kaizoyu.search.gui.SearchResults;
 import com.chame.kaizoyu.gui.adapters.TabAdapter;
 import com.chame.kaizoyu.utils.Configuration;
-import com.chame.kaizoyu.utils.ScrappersAssistant;
+import com.chame.kaizoyu.utils.DataAssistant;
 import com.chame.kaizoyu.utils.ThreadingAssistant;
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.ref.WeakReference;
-import java.util.logging.*;
 
 public class MainActivity extends AppCompatActivity {
-    private final ThreadingAssistant thAssistant = new ThreadingAssistant();
-    private final ScrappersAssistant shScrappers = new ScrappersAssistant(thAssistant);
-    private Configuration configManager;
     public static WeakReference<MainActivity> weakActivity;
+    private DataAssistant dataAssistant;
 
     private TabAdapter tabAdapter;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
 
-    public ThreadingAssistant getThreadingAssistant(){
-        return thAssistant;
-    }
-
-    public ScrappersAssistant getScrappersAssistant(){
-        return shScrappers;
-    }
-
-    public Configuration getConfigManager() {
-        return configManager;
+    public DataAssistant getDataAssistant() {
+        return dataAssistant;
     }
 
     public int getCurrentTabIndex(){
@@ -55,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         weakActivity = new WeakReference<>(MainActivity.this);
-
-        configManager = new Configuration(this);
+        dataAssistant = new DataAssistant(this);
 
         setContentView(R.layout.activity_main);
         //Tabs

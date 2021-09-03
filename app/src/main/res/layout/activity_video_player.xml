@@ -6,7 +6,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="?attr/fullscreenBackgroundColor"
-             tools:context=".gui.VideoPlayer"
+             tools:context=".video.gui.VideoPlayer"
              android:id="@+id/video_background">
 
         <VideoView

@@ -1,4 +1,4 @@
-package com.chame.kaizoyu.gui.modelholder;
+package com.chame.kaizoyu.video;
 
 import androidx.lifecycle.ViewModel;
 import com.chame.kaizolib.irc.DCCDownloader;

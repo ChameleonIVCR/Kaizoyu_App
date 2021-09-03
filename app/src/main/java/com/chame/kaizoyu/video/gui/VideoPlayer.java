@@ -1,4 +1,4 @@
-package com.chame.kaizoyu.gui;
+package com.chame.kaizoyu.video.gui;
 
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.chame.kaizolib.irc.DCCDownloader;
 import com.chame.kaizolib.irc.IrcClient;
 import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.gui.modelholder.VideoDownloadHolder;
+import com.chame.kaizoyu.video.VideoDownloadHolder;
 
 import com.google.android.material.snackbar.Snackbar;
 import io.github.tonnyl.spark.Spark;

@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.ChameleonIVCR:KaizoLib:7c6329de42'
+    implementation 'com.github.ChameleonIVCR:KaizoLib:0df16f200c'
 
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
     implementation 'io.github.tonnyl:spark:0.1.0-alpha'

@@ -12,13 +12,13 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.Kaizoyu">
         <activity
-                android:name=".gui.VideoPlayer"
+                android:name=".video.gui.VideoPlayer"
                 android:screenOrientation="sensorLandscape"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/title_activity_video_player"
                 android:theme="@style/Theme.Kaizoyu.Fullscreen">
         </activity>
-        <activity android:name=".gui.SearchResults">
+        <activity android:name=".search.gui.SearchResults">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

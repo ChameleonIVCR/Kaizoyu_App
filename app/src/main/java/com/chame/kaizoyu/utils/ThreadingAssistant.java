@@ -1,7 +1,5 @@
 package com.chame.kaizoyu.utils;
 
-import com.chame.kaizoyu.search.scrappers.NiblSearch;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -27,5 +25,10 @@ public class ThreadingAssistant {
 
     public Future submitToDownloadThread(Runnable download){
         return downloadThread.submit(download);
+    }
+
+    public void close(){
+        searchThread.shutdownNow();
+        downloadThread.shutdownNow();
     }
 }

@@ -1,4 +1,4 @@
-package com.chame.kaizoyu.gui.adapters;
+package com.chame.kaizoyu.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;

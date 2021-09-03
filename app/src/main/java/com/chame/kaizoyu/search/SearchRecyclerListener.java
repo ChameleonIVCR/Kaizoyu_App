@@ -1,31 +1,38 @@
-package com.chame.kaizoyu.gui.adapters;
+package com.chame.kaizoyu.search;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chame.kaizolib.common.model.Result;
+import com.chame.kaizolib.nibl.Nibl;
 import com.chame.kaizoyu.MainActivity;
-import com.chame.kaizoyu.search.scrappers.NiblSearch;
+import com.chame.kaizoyu.NiblSearch;
 import com.chame.kaizoyu.utils.ThreadingAssistant;
 
 import java.util.List;
 
 public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
-    private final NiblSearch niblSearch;
+    private final Nibl nibl;
     private final RecyclerAdapter adapter;
     private final ThreadingAssistant thAssistant;
-
-    private List<Result> results = null;
+    private String searchTerm;
+    private List<Result> results;
     private boolean isLoadingResults = false;
 
     public SearchRecyclerListener(String searchTerm, RecyclerAdapter adapter){
         this.adapter = adapter;
-        this.niblSearch = new NiblSearch(
-                searchTerm,
-                MainActivity.getInstance().getScrappersAssistant().getNibl(),
-                this
-        );
-        thAssistant = MainActivity.getInstance().getThreadingAssistant();
+        this.nibl = new Nibl(MainActivity.getInstance().getDataAssistant().getUserHttpClient());
+        thAssistant = MainActivity.getInstance().getDataAssistant().getThreadingAssistant();
+        nibl.setNiblSuccessListener(this::setResults);
+        this.searchTerm = searchTerm;
+    }
+
+    public void setNiblFailureListener(Nibl.NiblFailureListener fListener){
+        nibl.setNiblFailureListener(fListener);
+    }
+
+    public void setNiblOnNoResultsListener(Nibl.NiblOnNoResultsListener rListener){
+        nibl.setNiblOnNoResultsListener(rListener);
     }
 
     @Override
@@ -71,7 +78,7 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
             thAssistant.cancelSearchThread();
         }
 
-        thAssistant.submitToSearchThread(niblSearch);
+        thAssistant.submitToSearchThread(() -> nibl.search(this.searchTerm));
     }
 
     public void newSearch(String searchTerm){
@@ -99,9 +106,5 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
 
         adapter.replaceData(subResults);
         adapter.getRecyclerView().post(adapter::notifyDataSetChanged);
-    }
-
-    public interface SearchListener{
-        void onNoResults();
     }
 }

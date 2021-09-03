@@ -1,4 +1,4 @@
-package com.chame.kaizoyu.gui;
+package com.chame.kaizoyu.search.gui;
 
 import android.content.Intent;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -14,11 +14,9 @@ import android.widget.SearchView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.chame.kaizoyu.gui.adapters.RecyclerAdapter;
-import com.chame.kaizoyu.gui.adapters.SearchRecyclerListener;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.chame.kaizoyu.search.RecyclerAdapter;
+import com.chame.kaizoyu.search.SearchRecyclerListener;
+import com.chame.kaizoyu.video.gui.VideoPlayer;
 
 public class SearchResults extends AppCompatActivity {
     private SearchRecyclerListener pager;
@@ -38,7 +36,7 @@ public class SearchResults extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                MainActivity.getInstance().getThreadingAssistant().cancelSearchThread();
+                MainActivity.getInstance().getDataAssistant().getThreadingAssistant().cancelSearchThread();
             }
         });
 

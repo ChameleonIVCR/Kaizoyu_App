@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.chame.kaizoyu.R;
-import com.chame.kaizoyu.gui.adapters.SearchRecyclerListener;
+import com.chame.kaizoyu.search.SearchRecyclerListener;
 
 /**
  * A simple {@link Fragment} subclass.
