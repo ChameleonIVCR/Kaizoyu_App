@@ -25,6 +25,10 @@ public class DataAssistant {
         return httpClient;
     }
 
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     public void close(){
         configuration.save();
         thAssistant.close();

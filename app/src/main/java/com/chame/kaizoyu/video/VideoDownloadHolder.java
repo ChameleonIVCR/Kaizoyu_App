@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.concurrent.Future;
 
 public class VideoDownloadHolder extends ViewModel {
-    private ThreadingAssistant thAssistant = MainActivity.getInstance().getThreadingAssistant();
+    private ThreadingAssistant thAssistant = MainActivity.getInstance().getDataAssistant().getThreadingAssistant();
     private Future ircFuture;
     private Future dccFuture;
 
@@ -27,7 +27,7 @@ public class VideoDownloadHolder extends ViewModel {
     private boolean hasStarted = false;
 
     public void initialize(String videoCommand, File cachePath){
-        final String username = MainActivity.getInstance().getConfigManager().getProperty("ircName");
+        final String username = MainActivity.getInstance().getDataAssistant().getConfiguration().getProperty("ircName");
         this.irc = new IrcClient(videoCommand, username);
         this.cachePath = cachePath;
     }

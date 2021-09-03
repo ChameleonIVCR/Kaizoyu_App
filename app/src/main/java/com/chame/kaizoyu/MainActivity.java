@@ -9,9 +9,7 @@ import android.os.Bundle;
 import androidx.viewpager2.widget.ViewPager2;
 import com.chame.kaizoyu.search.gui.SearchResults;
 import com.chame.kaizoyu.gui.adapters.TabAdapter;
-import com.chame.kaizoyu.utils.Configuration;
 import com.chame.kaizoyu.utils.DataAssistant;
-import com.chame.kaizoyu.utils.ThreadingAssistant;
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.ref.WeakReference;

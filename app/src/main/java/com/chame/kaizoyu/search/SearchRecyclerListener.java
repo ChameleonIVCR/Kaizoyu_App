@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chame.kaizolib.common.model.Result;
 import com.chame.kaizolib.nibl.Nibl;
 import com.chame.kaizoyu.MainActivity;
-import com.chame.kaizoyu.NiblSearch;
 import com.chame.kaizoyu.utils.ThreadingAssistant;
 
 import java.util.List;
@@ -82,18 +81,11 @@ public class SearchRecyclerListener extends RecyclerView.OnScrollListener {
     }
 
     public void newSearch(String searchTerm){
-        if (thAssistant.isSearchThreadRunning()){
-            thAssistant.cancelSearchThread();
-        }
+        if (thAssistant.isSearchThreadRunning()) thAssistant.cancelSearchThread();
 
         adapter.clearData();
         adapter.getRecyclerView().post(adapter::notifyDataSetChanged);
-
-        thAssistant.submitToSearchThread(new NiblSearch(
-                searchTerm,
-                MainActivity.getInstance().getScrappersAssistant().getNibl(),
-                this
-        ));
+        thAssistant.submitToSearchThread(() -> nibl.search(searchTerm));
     }
 
     private void loadMoreResults(){
