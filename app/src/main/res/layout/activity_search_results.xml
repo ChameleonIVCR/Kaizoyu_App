@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".search.gui.SearchResults">
-
     <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,14 +14,13 @@
             android:minHeight="?attr/actionBarSize" android:id="@+id/search_toolbar"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
-    <SearchView
-            android:layout_width="match_parent"
-            android:id="@+id/main_search_bar"
-            android:layoutDirection="rtl"
-            android:layout_height="match_parent" tools:layout_editor_absoluteY="27dp"
-            tools:layout_editor_absoluteX="85dp"/>
+        <SearchView
+                android:layout_width="match_parent"
+                android:id="@+id/main_search_bar"
+                android:layoutDirection="rtl"
+                android:layout_height="match_parent" tools:layout_editor_absoluteY="27dp"
+                tools:layout_editor_absoluteX="85dp"/>
     </androidx.appcompat.widget.Toolbar>
-
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
