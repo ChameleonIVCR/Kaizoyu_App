@@ -36,7 +36,7 @@ public class DataAssistant {
         clearCache();
     }
 
-    private void clearCache(){
+    public void clearCache(){
         File[] files = mainContext.getCacheDir().listFiles();
         if(files != null) {
             for(File f : files) {
