@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         weakActivity = new WeakReference<>(MainActivity.this);
         dataAssistant = new DataAssistant(this);
+        dataAssistant.clearCache();
 
         setContentView(R.layout.activity_main);
         //Tabs

@@ -1,7 +1,6 @@
 package com.chame.kaizoyu.video.gui;
 
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -20,7 +19,13 @@ import com.chame.kaizoyu.video.VideoDownloadHolder;
 import com.google.android.material.snackbar.Snackbar;
 import io.github.tonnyl.spark.Spark;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.VLCVideoLayout;
+
 import java.io.File;
+import java.util.ArrayList;
 
 public class VideoPlayer extends AppCompatActivity {
     private Spark spark;
@@ -35,7 +40,11 @@ public class VideoPlayer extends AppCompatActivity {
     private LinearLayout secondaryIndicatorContainer;
 
     private VideoDownloadHolder videoDataHolder;
-    private VideoView videoView;
+
+    private VLCVideoLayout videoView;
+    private LibVLC mLibVLC = null;
+    private MediaPlayer mMediaPlayer = null;
+
 
     private File downloadFile;
 
@@ -116,6 +125,7 @@ public class VideoPlayer extends AppCompatActivity {
                     runOnUiThread(() -> initialProgressBar.setProgress(progress));
                     runOnUiThread(() -> downloadSpeed.setText(speed));
                 }
+
                 System.out.println(speed);
                 System.out.println(progress);
             }
@@ -142,35 +152,13 @@ public class VideoPlayer extends AppCompatActivity {
 
         //Configure player
         videoView = findViewById(R.id.video_frame);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                MediaPlayer.TrackInfo[] a = mp.getTrackInfo();
-                for (MediaPlayer.TrackInfo i : a){
-                    System.out.println("Found Tracks:" + i.getTrackType());
-                }
-            }
-        });
 
-        MediaController ctlr = new MediaController(this){
-            @Override
-            public void hide() {
-                super.hide();
-            }
+        final ArrayList<String> args = new ArrayList<>();
+        args.add("--file-caching=2000");
+        args.add("-vvv");
+        mLibVLC = new LibVLC(this, args);
 
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent event) {
-                if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
-                    super.hide();
-                    finish();
-                    return true;
-                }
-                return super.dispatchKeyEvent(event);
-            }
-        };
-
-        ctlr.setMediaPlayer(videoView);
-        videoView.setMediaController(ctlr);
+        mMediaPlayer = new MediaPlayer(mLibVLC);
         videoView.requestFocus();
         videoView.setVisibility(View.INVISIBLE);
 
@@ -258,8 +246,13 @@ public class VideoPlayer extends AppCompatActivity {
         secondaryIndicatorContainer.setVisibility(View.VISIBLE);
 
         isPlaying = true;
+
+        mMediaPlayer.attachViews(videoView, null, true, true);
+        final Media media = new Media(mLibVLC, Uri.fromFile(downloadFile));
+        mMediaPlayer.setMedia(media);
+        media.release();
+
         videoView.setVisibility(View.VISIBLE);
-        videoView.setVideoPath(String.valueOf(Uri.fromFile(downloadFile)));
-        videoView.start();
+        mMediaPlayer.play();
     }
 }
