@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="theme">Theme</string>
+    <string name="theme_context">Select a theme</string>
     <string name="theme_default">Default</string>
     <string name="theme_system">System Accent Colour</string>
     <string name="theme_crystal">Crystal (Experimental)</string>
@@ -17,5 +18,11 @@
     <string name="clear_search_history">Clear Search History</string>
     <string name="clear_search_history_descriptions">Erase your stored search history</string>
     <string name="night_theme">Night Theme</string>
-    <string name="night_theme_description">System Default</string>
+    <string name="night_theme_context">Select night theme preference</string>
+    <string name="night_theme_default">System Default</string>
+    <string name="night_theme_day">Day Theme</string>
+    <string name="night_theme_night">Night Theme</string>
+    <string name="cache_toast">The video cache has been cleared</string>
+    <string name="search_limit">Search Results Limit</string>
+    <string name="search_default">150</string>
 </resources>
