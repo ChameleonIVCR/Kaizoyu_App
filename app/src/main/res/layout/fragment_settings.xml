@@ -15,7 +15,9 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:id="@+id/themeTrigger">
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -25,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"/>
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -33,14 +36,16 @@
                     android:text="@string/theme_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView2"/>
+                    android:id="@+id/themeValue"/>
         </LinearLayout>
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:id="@+id/nightThemeTrigger">
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -50,15 +55,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView12"/>
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
                     android:textSize="12sp"
                     android:textColor="@color/main_text"
-                    android:text="@string/night_theme_description"
+                    android:text="@string/night_theme_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nightThemeValue"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center_vertical"
+                android:id="@+id/searchLimitTrigger">
+
+            <TextView
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="100dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/main_text"
+                    android:text="@string/search_limit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView13"/>
+
+            <TextView
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="100dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/main_text"
+                    android:text="@string/search_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/searchLimitValue"/>
         </LinearLayout>
 
         <LinearLayout
@@ -74,7 +108,7 @@
                     android:text="@string/analytics"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switch1"/>
+                    android:id="@+id/analyticsValue"/>
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -99,7 +133,7 @@
                     android:text="@string/newsfeed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switch2"/>
+                    android:id="@+id/newsValue"/>
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -124,7 +158,7 @@
                     android:text="@string/ipv6_sources"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switch3"/>
+                    android:id="@+id/ipv6SorcesValue"/>
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -140,7 +174,9 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:id="@+id/clearCacheTrigger">
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -150,6 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView10"/>
+
             <TextView
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="100dp"
@@ -158,7 +195,7 @@
                     android:text="@string/clear_cache_repository"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView11"/>
+                    />
         </LinearLayout>
 
         <LinearLayout

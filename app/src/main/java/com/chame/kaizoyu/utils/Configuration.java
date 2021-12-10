@@ -23,8 +23,16 @@ public class Configuration {
         return properties.getProperty(property);
     }
 
+    public boolean getBooleanProperty(String property) {
+        return Boolean.parseBoolean(properties.getProperty(property));
+    }
+
     public void setProperty(String property, String value) {
         properties.setProperty(property, value);
+    }
+
+    public void setBooleanProperty(String property, boolean value) {
+        properties.setProperty(property, String.valueOf(value));
     }
 
     private void generateUsername(){
